@@ -1,5 +1,5 @@
 [versions]
-androidxActivity = "1.9.1"
+androidxActivity = "1.6.1"
 androidxComposeBom = "2022.12.00"
 androidxCore = "1.9.0"
 androidxLifecycle = "2.5.1"
@@ -8,7 +8,7 @@ androidxTestExt = "1.1.5"
 junit4 = "4.13.2"
 
 [libraries]
-androidx-activity-compose = { group = "android.activity", name = "activity-compose", version.ref = "androidxActivity" }
+androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "androidxActivity" }
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "androidxComposeBom" }
 androidx-compose-material3 = { group = "androidx.compose.material3", name="material3" }
 androidx-compose-ui = { group = "androidx.compose.ui", name="ui"}
