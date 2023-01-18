@@ -1,4 +1,4 @@
-package org.pixysos.updater.ui.theme
+package org.pixysos.updater.core.designsystem.theme
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Shapes

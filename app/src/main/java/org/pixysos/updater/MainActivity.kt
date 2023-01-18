@@ -8,7 +8,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import dagger.hilt.android.AndroidEntryPoint
-import org.pixysos.updater.ui.theme.UpdaterTheme
+import org.pixysos.updater.core.designsystem.theme.UpdaterTheme
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {

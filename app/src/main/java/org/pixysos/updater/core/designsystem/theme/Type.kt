@@ -1,4 +1,4 @@
-package org.pixysos.updater.ui.theme
+package org.pixysos.updater.core.designsystem.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

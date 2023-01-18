@@ -1,4 +1,4 @@
-package org.pixysos.updater.ui.theme
+package org.pixysos.updater.core.designsystem.theme
 
 import android.app.Activity
 import android.os.Build
