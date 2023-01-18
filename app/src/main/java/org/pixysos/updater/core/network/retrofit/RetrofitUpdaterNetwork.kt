@@ -2,7 +2,7 @@ package org.pixysos.updater.core.network.retrofit
 
 import org.pixysos.updater.BuildConfig
 import org.pixysos.updater.core.network.UpdaterNetworkDataSource
-import org.pixysos.updater.data.model.UpdatePackage
+import org.pixysos.updater.core.data.model.UpdatePackage
 import retrofit2.http.GET
 
 private interface RetrofitUpdaterNetworkApi {

@@ -2,7 +2,7 @@ package org.pixysos.updater.feature.updates
 
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import org.pixysos.updater.data.model.UpdatePackage
+import org.pixysos.updater.core.data.model.UpdatePackage
 import javax.inject.Inject
 
 @HiltViewModel

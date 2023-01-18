@@ -1,4 +1,4 @@
-package org.pixysos.updater.data.model
+package org.pixysos.updater.core.data.model
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

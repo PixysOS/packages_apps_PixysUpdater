@@ -1,6 +1,6 @@
 package org.pixysos.updater.core.network
 
-import org.pixysos.updater.data.model.UpdatePackage
+import org.pixysos.updater.core.data.model.UpdatePackage
 
 /**
  * Interface representing network calls to Updater backend
