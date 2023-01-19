@@ -70,6 +70,12 @@ dependencies {
     implementation(libs.hilt.android)
     implementation(libs.hilt.compiler)
 
+    // Kotlinx Serialization Json
+    implementation(libs.kotlinx.serialization.json)
+
+    // Logging Interceptor
+    implementation(libs.okhttp.logging)
+
     // Retrofit
     implementation(libs.retrofit.core)
     implementation(libs.retrofit.kotlin.serialization)
