@@ -26,7 +26,10 @@ android {
     buildTypes {
         getByName("release") {
             isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
     }
     compileOptions {
@@ -51,6 +54,7 @@ android {
 }
 
 dependencies {
+    compileOnly(fileTree(mapOf("dir" to "system_libs", "include" to listOf("*.jar"))))
 
     val composeBom = platform(libs.androidx.compose.bom)
     implementation(composeBom)
