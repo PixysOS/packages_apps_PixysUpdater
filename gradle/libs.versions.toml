@@ -2,6 +2,7 @@
 androidGradlePlugin = "7.4.0"
 androidxActivity = "1.6.1"
 androidxComposeBom = "2023.01.00"
+androidxComposeMaterial3 = "1.1.0-alpha04"
 androidxCore = "1.9.0"
 androidxHiltNavigationCompose = "1.0.0"
 androidxLifecycle = "2.6.0-alpha04"
@@ -18,7 +19,7 @@ retrofitKotlinxSerializationJson = "0.8.0"
 [libraries]
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "androidxActivity" }
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "androidxComposeBom" }
-androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3" }
+androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3", version.ref = "androidxComposeMaterial3" }
 androidx-compose-ui = { group = "androidx.compose.ui", name = "ui" }
 androidx-compose-ui-test = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-compose-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
