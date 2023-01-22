@@ -8,20 +8,25 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import org.pixysos.updater.core.data.model.UpdatePackage
+import org.pixysos.updater.core.data.repository.BuildPropertiesRepository
 import org.pixysos.updater.core.data.repository.UpdatesRepository
 import javax.inject.Inject
 
 @HiltViewModel
 class UpdatesViewModel @Inject constructor(
-    private val updatesRepository: UpdatesRepository
+    private val updatesRepository: UpdatesRepository,
+    private val buildPropertiesRepository: BuildPropertiesRepository
 ) : ViewModel() {
-//    val uiState: StateFlow<UpdatesUiState> = updatesRepository.getUpdatePackageInfo()
-//        .map<UpdatePackage, UpdatesUiState>(UpdatesUiState::Success)
-//        .stateIn(
-//            scope = viewModelScope,
-//            started = SharingStarted.WhileSubscribed(5_000),
-//            initialValue = UpdatesUiState.Loading
-//        )
+    val uiState: StateFlow<UpdatesUiState> = updatesRepository.getUpdatePackageInfo(
+        device = buildPropertiesRepository.buildProperty.device!!,
+        buildEdition = buildPropertiesRepository.buildProperty.buildEdition!!
+    )
+        .map<UpdatePackage, UpdatesUiState>(UpdatesUiState::Success)
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5_000),
+            initialValue = UpdatesUiState.Loading
+        )
 }
 
 sealed interface UpdatesUiState {

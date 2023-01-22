@@ -1,6 +1,7 @@
 package org.pixysos.updater.core.network.retrofit
 
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
@@ -11,6 +12,7 @@ import org.pixysos.updater.core.network.UpdaterNetworkDataSource
 import retrofit2.Retrofit
 import retrofit2.http.GET
 import retrofit2.http.Path
+import javax.inject.Inject
 import javax.inject.Singleton
 
 private interface RetrofitUpdaterNetworkApi {
@@ -24,8 +26,15 @@ private interface RetrofitUpdaterNetworkApi {
 private const val UpdaterBaseUrl = BuildConfig.BASE_URL
 
 @Singleton
-class RetrofitUpdaterNetwork : UpdaterNetworkDataSource {
+class RetrofitUpdaterNetwork @Inject constructor(
 
+) : UpdaterNetworkDataSource {
+
+    private val json = Json {
+        ignoreUnknownKeys = true
+    }
+
+    @OptIn(ExperimentalSerializationApi::class)
     private val networkApi = Retrofit.Builder()
         .baseUrl(UpdaterBaseUrl)
         .client(
@@ -36,7 +45,7 @@ class RetrofitUpdaterNetwork : UpdaterNetworkDataSource {
             ).build()
         )
         .addConverterFactory(
-            Json.asConverterFactory(
+            json.asConverterFactory(
                 contentType = "application/json".toMediaType()
             )
         )
