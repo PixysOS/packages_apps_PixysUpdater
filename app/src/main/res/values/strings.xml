@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">Updater</string>
+
+    <!-- TopAppBar -->
+    <string name="navigation_icon_content_description">Navigation icon</string>
 </resources>

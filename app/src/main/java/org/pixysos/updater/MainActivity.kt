@@ -9,6 +9,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.core.view.WindowCompat
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.AndroidEntryPoint
@@ -28,7 +29,10 @@ class MainActivity : ComponentActivity() {
             val darkTheme = isSystemInDarkTheme()
 
             DisposableEffect(key1 = systemUiController, key2 = darkTheme) {
-                systemUiController.systemBarsDarkContentEnabled = !darkTheme
+                systemUiController.setSystemBarsColor(
+                    color = Color.Transparent,
+                    darkIcons = !darkTheme
+                )
                 onDispose { }
             }
 
