@@ -15,7 +15,7 @@ kotlin = "1.9.10"
 kotlinxSerializationJson = "1.6.0"
 okhttp = "4.10.0"
 retrofit = "2.9.0"
-retrofitKotlinxSerializationJson = "0.8.0"
+retrofitKotlinxSerializationJson = "1.0.0"
 
 [libraries]
 accompanist-systemuicontroller = { group = "com.google.accompanist", name = "accompanist-systemuicontroller", version.ref = "accompanist" }
