@@ -5,7 +5,7 @@ buildscript {
     }
 
     dependencies {
-        val kotlinVersion = "1.8.0"
+        val kotlinVersion = "1.9.10"
         classpath("com.google.android.libraries.mapsplatform.secrets-gradle-plugin:secrets-gradle-plugin:2.0.1")
         classpath(kotlin("serialization", version = kotlinVersion))
     }
