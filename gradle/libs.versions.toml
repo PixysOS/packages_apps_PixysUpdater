@@ -13,7 +13,7 @@ hilt = "2.48.1"
 junit4 = "4.13.2"
 kotlin = "1.9.10"
 kotlinxSerializationJson = "1.6.0"
-okhttp = "4.10.0"
+okhttp = "4.12.0"
 retrofit = "2.9.0"
 retrofitKotlinxSerializationJson = "0.8.0"
 
