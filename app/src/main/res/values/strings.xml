@@ -3,4 +3,5 @@
 
     <!-- TopAppBar -->
     <string name="navigation_icon_content_description">Navigation icon</string>
+    <string name="system_updates">System Updates</string>
 </resources>
