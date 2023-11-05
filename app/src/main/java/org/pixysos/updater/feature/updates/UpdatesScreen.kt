@@ -28,13 +28,10 @@ fun UpdatesScreen(
         topBar = {
             UpdaterTopAppBar(
                 titleRes = R.string.app_name,
-                navigationIcon = Icons.Default.ArrowBack,
+                navigationIcon = { },
                 navigationIconContentDescription = stringResource(id = R.string.navigation_icon_content_description)
             )
         },
-        contentWindowInsets = WindowInsets(0, 0, 0, 0),
-        containerColor = Color.Transparent,
-        contentColor = MaterialTheme.colorScheme.onBackground
     ) { padding ->
         Row(
             modifier = modifier

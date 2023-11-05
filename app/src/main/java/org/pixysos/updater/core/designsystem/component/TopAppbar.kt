@@ -16,20 +16,13 @@ import org.pixysos.updater.R
 fun UpdaterTopAppBar(
     modifier: Modifier = Modifier,
     @StringRes titleRes: Int,
-    navigationIcon: ImageVector,
+    navigationIcon: @Composable () -> Unit,
     navigationIconContentDescription: String?,
     colors: TopAppBarColors = TopAppBarDefaults.mediumTopAppBarColors(),
 ) {
     LargeTopAppBar(
         title = { Text(text = stringResource(id = titleRes)) },
-        navigationIcon = {
-            IconButton(onClick = { /*TODO*/ }) {
-                Icon(
-                    imageVector = navigationIcon,
-                    contentDescription = navigationIconContentDescription
-                )
-            }
-        },
+        navigationIcon = navigationIcon,
         colors = colors,
         modifier = modifier,
         scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
@@ -42,7 +35,7 @@ fun UpdaterTopAppBar(
 fun UpdaterTopAppBarPreview() {
     UpdaterTopAppBar(
         titleRes = R.string.app_name,
-        navigationIcon = Icons.Default.ArrowBack,
+        navigationIcon = { },
         navigationIconContentDescription = "Navigation Icon"
     )
 }
