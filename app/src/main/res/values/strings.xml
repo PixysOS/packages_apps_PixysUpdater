@@ -4,4 +4,12 @@
     <!-- TopAppBar -->
     <string name="navigation_icon_content_description">Navigation icon</string>
     <string name="system_updates">System Updates</string>
+    <string name="security_update">Security update</string>
+    <string name="device">Device</string>
+    <string name="pixys_version">PixysOS version</string>
+    <string name="looks_good">Looks good</string>
+    <string name="no_updates_available">No updates available</string>
+    <string name="checking_for_updates">Checking for updates…</string>
+    <string name="check_for_updates_content_desc">Check for updates</string>
+    <string name="check_updates">Check updates</string>
 </resources>

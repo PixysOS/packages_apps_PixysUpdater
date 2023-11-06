@@ -17,7 +17,8 @@ fun UpdaterTopAppBar(
     colors: TopAppBarColors = TopAppBarDefaults.mediumTopAppBarColors(),
 ) {
     LargeTopAppBar(
-        title = { Text(text = stringResource(id = titleRes)) },
+        title = { Text(text = stringResource(id = titleRes),
+            style = MaterialTheme.typography.headlineMedium) },
         navigationIcon = navigationIcon,
         colors = colors,
         modifier = modifier,
