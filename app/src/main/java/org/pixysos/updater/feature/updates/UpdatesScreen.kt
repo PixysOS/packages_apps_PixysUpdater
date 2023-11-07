@@ -220,7 +220,7 @@ fun DeviceInformationSection(
         contentPadding = PaddingValues(top = 24.dp, start = 8.dp)
     ) {
         item {
-            Text(text = "Device Information", modifier = Modifier.padding(bottom = 16.dp))
+            Text(text = stringResource(R.string.device_information), modifier = Modifier.padding(bottom = 16.dp))
         }
         items(informationItems) { statusInfo ->
             DeviceInformationElement(
