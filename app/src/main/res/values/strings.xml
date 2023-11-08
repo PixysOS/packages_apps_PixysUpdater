@@ -13,4 +13,5 @@
     <string name="check_for_updates_content_desc">Check for updates</string>
     <string name="check_updates">Check updates</string>
     <string name="device_information">Device Information</string>
+    <string name="update_from">Update from %1$s</string>
 </resources>

@@ -6,5 +6,6 @@ package org.pixysos.updater.core.data.model
 data class PixysBuildProperty(
     val device: String? = null,
     val releaseType: String? = null,
-    val buildEdition: String? = null
+    val buildEdition: String? = null,
+    val securityPatchDate: String? = null
 )

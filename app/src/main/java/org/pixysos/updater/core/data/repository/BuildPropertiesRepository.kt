@@ -22,4 +22,9 @@ interface BuildPropertiesRepository {
      * Returns the build variant. Can be either "vanilla" or "gapps".
      */
     fun getBuildEdition(): String?
+
+    /**
+     * Returns the security patch date.
+     */
+    fun getSecurityPatchDate(): String?
 }
