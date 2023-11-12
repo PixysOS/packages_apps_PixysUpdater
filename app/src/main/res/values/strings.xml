@@ -14,4 +14,6 @@
     <string name="check_updates">Check updates</string>
     <string name="device_information">Device Information</string>
     <string name="update_from">Update from %1$s</string>
+    <string name="automatic_updates">Automatic updates</string>
+    <string name="automatic_updates_desc">Allow updater to check for updates automatically and notify you when a new update is available.</string>
 </resources>

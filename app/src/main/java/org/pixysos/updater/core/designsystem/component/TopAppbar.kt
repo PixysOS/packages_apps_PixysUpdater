@@ -7,6 +7,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import org.pixysos.updater.R
+import org.pixysos.updater.core.designsystem.theme.UpdaterTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -14,15 +15,17 @@ fun UpdaterTopAppBar(
     modifier: Modifier = Modifier,
     @StringRes titleRes: Int,
     navigationIcon: @Composable () -> Unit,
-    colors: TopAppBarColors = TopAppBarDefaults.mediumTopAppBarColors(),
+    scrollBehavior: TopAppBarScrollBehavior
 ) {
     LargeTopAppBar(
-        title = { Text(text = stringResource(id = titleRes),
-            style = MaterialTheme.typography.headlineMedium) },
+        title = {
+            Text(
+                text = stringResource(id = titleRes),
+            )
+        },
         navigationIcon = navigationIcon,
-        colors = colors,
         modifier = modifier,
-        scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
+        scrollBehavior = scrollBehavior,
     )
 }
 
@@ -30,8 +33,11 @@ fun UpdaterTopAppBar(
 @Preview
 @Composable
 fun UpdaterTopAppBarPreview() {
-    UpdaterTopAppBar(
-        titleRes = R.string.system_updates,
-        navigationIcon = { },
+    UpdaterTheme {
+        UpdaterTopAppBar(
+            titleRes = R.string.system_updates,
+            navigationIcon = { },
+            scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
         )
+    }
 }

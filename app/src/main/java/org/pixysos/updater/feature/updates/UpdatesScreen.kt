@@ -1,8 +1,5 @@
 package org.pixysos.updater.feature.updates
 
-import androidx.annotation.DrawableRes
-import androidx.annotation.StringRes
-import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
@@ -16,36 +13,39 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.paddingFromBaseline
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberTopAppBarState
+import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.platform.rememberNestedScrollInteropConnection
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.pixysos.updater.R
-import org.pixysos.updater.core.data.model.PixysBuildProperty
 import org.pixysos.updater.core.designsystem.component.UpdaterTopAppBar
-import org.pixysos.updater.core.designsystem.theme.GreenLooksGood
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
@@ -55,76 +55,104 @@ fun UpdatesScreen(
 ) {
     val updatesUiState: UpdatesUiState by viewModel.uiState.collectAsStateWithLifecycle()
     val deviceInfoSummaryList = viewModel.deviceSummaryList
-    val connection = rememberNestedScrollInteropConnection()
+    val scrollBehavior =
+        TopAppBarDefaults.enterAlwaysScrollBehavior(state = rememberTopAppBarState())
+    var checked by rememberSaveable {
+        mutableStateOf(true)
+    }
 
     Scaffold(
+        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             UpdaterTopAppBar(
                 titleRes = R.string.system_updates,
-                navigationIcon = {}
+                navigationIcon = {},
+                scrollBehavior = scrollBehavior
             )
         },
-        floatingActionButton = {
-            ExtendedFloatingActionButton(
-                onClick = { /*TODO*/ }, modifier = Modifier.windowInsetsPadding(
-                    WindowInsets.navigationBars
-                )
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.ic_sync),
-                    contentDescription = stringResource(
-                        R.string.check_for_updates_content_desc
-                    ),
-                    colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurface)
-                )
-                Text(
-                    text = stringResource(R.string.check_updates),
-                    style = MaterialTheme.typography.labelLarge,
-                    modifier = Modifier.padding(start = 16.dp)
-                )
-            }
-        }
-    ) { padding ->
-        Column(
+    ) { innerPadding ->
+        LazyColumn(
             modifier = modifier
-                .nestedScroll(connection = connection)
-                .padding(padding)
-                .padding(horizontal = 16.dp, vertical = 24.dp)
+                .fillMaxSize()
+                .padding(horizontal = 24.dp),
+            contentPadding = innerPadding
         ) {
-            when (updatesUiState) {
-                is UpdatesUiState.Error -> {
+            item {
+                AutomaticUpdatesSection(
+                    modifier = Modifier.padding(vertical = 24.dp),
+                    onClick = { checked = !checked },
+                    checked = checked,
+                    onCheckedChange = {
+                        checked = it
+                    })
+            }
 
-                }
+            item {
+                when (updatesUiState) {
+                    is UpdatesUiState.Error -> {
 
-                is UpdatesUiState.Success -> {
-                    UpdateStatusCard(
-                        title = stringResource(id = R.string.looks_good), summary = stringResource(
-                            id = R.string.no_updates_available,
-                        ),
-                        updateFound = true
-                    )
-                }
+                    }
 
-                else -> {
-                    UpdateStatusCard(
-                        title = stringResource(id = R.string.looks_good),
-                        summary = stringResource(id = R.string.checking_for_updates),
-                        updateFound = false
-                    )
+                    is UpdatesUiState.Success -> {
+                        UpdatesSection(
+                            title = stringResource(id = R.string.looks_good),
+                            summary = stringResource(
+                                id = R.string.no_updates_available,
+                            ),
+                            isCheckingForUpdates = false,
+                            modifier = Modifier.padding(bottom = 16.dp)
+                        )
+                    }
+
+                    else -> {
+                        UpdatesSection(
+                            title = stringResource(id = R.string.looks_good),
+                            summary = stringResource(id = R.string.checking_for_updates),
+                            isCheckingForUpdates = true,
+                            modifier = Modifier.padding(bottom = 16.dp)
+                        )
+                    }
                 }
             }
 
-            DeviceInformationSection(
-                modifier = Modifier.padding(top = 24.dp),
-                deviceInfoList = deviceInfoSummaryList.mapIndexed { i, summary ->
-                    DeviceInformation(
-                        title = deviceInfoTitles[i],
-                        iconRes = deviceInfoIcons[i],
-                        summary = summary
-                    )
-                }
-            )
+            items(deviceInfoSummaryList.mapIndexed { i, summary ->
+                DeviceInformation(
+                    title = deviceInfoTitles[i],
+                    summary = summary
+                )
+            }) { deviceInfo ->
+                DeviceInformationElement(
+                    modifier = Modifier.padding(vertical = 8.dp),
+                    titleRes = deviceInfo.title,
+                    summary = if (deviceInfo.title != R.string.security_update) deviceInfo.summary else stringResource(
+                        id = R.string.update_from,
+                        deviceInfo.summary
+                    ),
+                )
+            }
         }
+    }
+}
+
+@Composable
+fun UpdatesSection(
+    modifier: Modifier = Modifier,
+    title: String,
+    summary: String,
+    isCheckingForUpdates: Boolean = true
+) {
+    Column(modifier = modifier) {
+        UpdateStatusCard(
+            title = title,
+            summary = summary,
+            isCheckingForUpdates = isCheckingForUpdates
+        )
+        Text(
+            text = "Last checked - 20 hours ago",
+            modifier = Modifier.paddingFromBaseline(top = 32.dp),
+            style = MaterialTheme.typography.labelLarge,
+            color = MaterialTheme.colorScheme.outline
+        )
     }
 }
 
@@ -134,7 +162,7 @@ fun UpdateStatusCard(
     modifier: Modifier = Modifier,
     title: String,
     summary: String,
-    updateFound: Boolean
+    isCheckingForUpdates: Boolean
 ) {
     val infiniteTransition = rememberInfiniteTransition(label = "Infinite")
     val alpha by infiniteTransition.animateFloat(
@@ -157,7 +185,7 @@ fun UpdateStatusCard(
             Image(
                 painter = painterResource(id = R.drawable.ic_verified_user),
                 contentDescription = "Security update good",
-                colorFilter = ColorFilter.tint(color = GreenLooksGood.copy(alpha = if (updateFound) 1f else alpha)),
+                colorFilter = ColorFilter.tint(color = MaterialTheme.colorScheme.tertiary.copy(alpha = if (!isCheckingForUpdates) 1f else alpha)),
                 modifier = Modifier.size(40.dp)
             )
             Column(
@@ -166,103 +194,29 @@ fun UpdateStatusCard(
                     .weight(1f),
                 verticalArrangement = Arrangement.Center
             ) {
-                AnimatedContent(
-                    targetState = title,
-                    label = "Title change animation"
-                ) { targetTitle ->
-                    Text(
-                        text = targetTitle,
-                        style = MaterialTheme.typography.headlineSmall
-                    )
-                }
-                AnimatedContent(
-                    targetState = summary,
-                    label = "Summary change animation"
-                ) { targetSummary ->
-                    Text(
-                        text = targetSummary,
-                        style = MaterialTheme.typography.bodyLarge,
-                        modifier = Modifier.paddingFromBaseline(top = 12.dp),
-                        color = MaterialTheme.colorScheme.outline
-                    )
-                }
+                Text(
+                    text = title,
+                    style = MaterialTheme.typography.headlineSmall
+                )
+                Text(
+                    text = summary,
+                    style = MaterialTheme.typography.bodyLarge,
+                    modifier = Modifier.paddingFromBaseline(top = 12.dp),
+                    color = MaterialTheme.colorScheme.outline
+                )
             }
         }
-    }
-}
 
-
-data class DeviceInformation(
-    @StringRes val title: Int,
-    @DrawableRes val iconRes: Int,
-    val summary: String
-)
-
-val deviceInfoTitles = listOf(
-    R.string.security_update,
-    R.string.device,
-    R.string.pixys_version
-)
-
-val deviceInfoIcons = listOf(
-    R.drawable.ic_shield,
-    R.drawable.ic_smartphone,
-    R.drawable.ic_perm_device_information
-)
-
-@Composable
-fun DeviceInformationSection(
-    modifier: Modifier = Modifier,
-    deviceInfoList: List<DeviceInformation>
-) {
-    LazyColumn(
-        modifier = modifier,
-        contentPadding = PaddingValues(top = 24.dp, start = 8.dp)
-    ) {
-        item {
-            Text(
-                text = stringResource(R.string.device_information),
-                modifier = Modifier.padding(bottom = 16.dp)
-            )
-        }
-        items(deviceInfoList) { deviceInfo ->
-            DeviceInformationElement(
-                modifier = Modifier.padding(vertical = 8.dp),
-                titleRes = deviceInfo.title,
-                summary = if (deviceInfo.title != R.string.security_update) deviceInfo.summary else stringResource(
-                    id = R.string.update_from,
-                    deviceInfo.summary
-                ),
-                iconRes = deviceInfo.iconRes
-            )
-        }
-    }
-}
-
-@Composable
-fun DeviceInformationElement(
-    modifier: Modifier = Modifier,
-    @StringRes titleRes: Int,
-    @DrawableRes iconRes: Int,
-    summary: String,
-    contentDescription: String? = null
-) {
-    Row(verticalAlignment = Alignment.CenterVertically) {
-        Image(
-            painter = painterResource(id = iconRes),
-            contentDescription = contentDescription,
-            colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.primary)
-        )
-        Column(
-            modifier = modifier.padding(start = 24.dp),
-            verticalArrangement = Arrangement.Center
+        Button(
+            shape = MaterialTheme.shapes.medium,
+            contentPadding = PaddingValues(vertical = 16.dp),
+            enabled = !isCheckingForUpdates,
+            onClick = { /*TODO*/ }, modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp)
+                .padding(bottom = 16.dp)
         ) {
-            Text(stringResource(id = titleRes), style = MaterialTheme.typography.titleLarge)
-            Text(
-                summary,
-                modifier = Modifier.paddingFromBaseline(top = 16.dp),
-                color = MaterialTheme.colorScheme.outline
-            )
+            Text(text = stringResource(id = R.string.check_updates))
         }
     }
 }

@@ -40,7 +40,7 @@ class UpdatesViewModel @Inject constructor(
             listOf(
                 property.securityPatchDate!!,
                 property.device!!,
-                property.releaseType!!
+                property.releaseType!!,
             )
         }
 }
